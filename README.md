@@ -1,5 +1,6 @@
-1. [genpass.ps1](#genpass.ps1)
-2. [monitor.ps1](#monitor.ps1)
+1. [genpass.ps1](#genpassps1)
+2. [monitor.ps1](#monitorps1)
+
 
 ## genpass.ps1
 This can be used to generate passwords or random security pin based on a secret PIN that you always remember.
