@@ -12,16 +12,25 @@ Write-Host "| 2.) Code scan	     |"
 Write-Host "----------------------"
 
 
-function validate{
+function validate-choice{
 	param(
-		 [Parameter(Mandatory = $true)]
-        	[ValidateScript({ $_ -match '^\d+$' })] 
+		[Parameter(Mandatory = $true)]
         	$InputNumber
 	)
-
+	
+	while ($InputNumber -notmatch '^\d+$' -or ($InputNumber -gt 2 -or $InputNumber -lt 1)){
+		Write-Host "Invalid choice"
+		$InputNumber = Read-Host "Enter your choice"
+	}
+	
 	return $InputNumber
 }
 
-$choice = validate Read-Host "Enter your choice");
+function manual-billing{
+	param(
+		
+	)
+}
 
-Write-host "This is choice $choice";
+$choice = validate-choice(Read-Host "Enter your choice");
+
