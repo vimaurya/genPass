@@ -41,40 +41,6 @@ function manual-billing{
 	Write-Host "Inside manual-billing"
 }
 
-function database-status {
-    param(
-        [string]$query
-    )
-
-    $connectionString = "server=localhost;port=3306;user id=root;password=vikash;"
-
-    $connection = New-Object MySql.Data.MySqlClient.MySqlConnection
-    $connection.ConnectionString = $connectionString
-
-    try {
-        $connection.Open()
-
-        $command = $connection.CreateCommand()
-
-        $query = "SELECT schema_name AS name FROM information_schema.schemata;"
-
-        $command.CommandText = $query
-
-        $adapter = New-Object MySql.Data.MySqlClient.MySqlDataAdapter $command
-
-        $dataSet = New-Object System.Data.DataSet
-        $adapter.Fill($dataSet)
-
-        $dataSet.Tables[0] | Format-Table
-
-        return $dataSet.Tables[0]
-    } catch {
-        Write-Host "Error: $_"
-    } finally {
-        $connection.Close()
-    }
-}
-
 function main{
 
 	$choice = validate (Read-Host "Enter your choice ") 0
@@ -86,4 +52,3 @@ function main{
 }
 
 main
-#database-status
