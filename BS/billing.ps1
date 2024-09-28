@@ -12,33 +12,33 @@ Write-Host "| 1.) Manual	     |"
 Write-Host "| 2.) Code scan	     |"
 Write-Host "----------------------"
 
+function validate {
+    param(
+        [Parameter(Mandatory = $true)]
+        $InputNumber,
+        $marker
+    )
 
-function validate{
-	param(
-		[Parameter(Mandatory = $true)]
-        	$InputNumber,
-		$marker
-	)
-	
-	if($marker -eq 0){
-		while ($InputNumber -notmatch '^\d+$' -or ($InputNumber -gt 2 -or $InputNumber -lt 1)){
-			Write-Host "Invalid choice"
-			$InputNumber = Read-Host "Enter your choice"
-		}
-	} else{
-		while ($InputNumber -notmatch '^\d+$'){
-			Write-Host "Invalid id"
-			$InputNumber = Read-Host "Input again "
-		}
-	}
-		
-	return $InputNumber
+    if ($marker -eq 0) {
+        while ($InputNumber -notmatch '^\d+$' -or ($InputNumber -ne 2 -and $InputNumber -ne 1)) {
+            Write-Host "Invalid choice"
+            $InputNumber = Read-Host "Enter your choice "
+        }
+    } else {
+        while ($InputNumber -notmatch '^\d+$') {
+            Write-Host "Invalid id"
+            $InputNumber = Read-Host "Enter prid "
+        }
+    }
+
+    return $InputNumber
 }
 
 function manual-billing{
 	param(
 		$prd_id
 	)
+	Write-Host "Inside manual-billing"
 }
 
 function database-status {
@@ -77,12 +77,13 @@ function database-status {
 
 function main{
 
-	$choice = validate (Read-Host "Enter your choice") 0
+	$choice = validate (Read-Host "Enter your choice ") 0
 
 	if ($choice -eq 1){
-		$prd_id = validate (Read-Host "Enter pid ") 1
+		$prd_id = validate (Read-Host "Enter prid ") 1
 		manual-billing $pr_id
 	}
 }
 
 main
+#database-status
