@@ -34,11 +34,29 @@ function validate {
     return $InputNumber
 }
 
+function Get-Tid{
+	param(
+		[string]$prefix = "TXN"
+	)
+
+	$transaction_time = Get-Date
+
+	$timestamp = $transaction_time.ToString("yyyyMMddHHmmssfff")
+
+	$unique = Get-Random -Minimum 9999 -Maximum 100000
+
+	$Tid = "$prefix-$timestamp-$unique"
+
+	return $Tid, $transaction_time
+}
+
 function manual-billing{
 	param(
 		$prd_id
 	)
 	Write-Host "Inside manual-billing"
+	$Tid, $transaction_time = Get-Tid
+	Write-Host $Tid $transaction_time
 }
 
 function main{

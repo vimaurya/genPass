@@ -1,3 +1,6 @@
+# Load the MySQL Connector assembly
+[Reflection.Assembly]::LoadFrom("C:\Program Files (x86)\MySQL\Connector NET 8.0\Assemblies\v4.5.2\MySql.Data.dll")
+
 $statusLines = Get-Content -Path ".\status.txt"
 
 function drop-database{

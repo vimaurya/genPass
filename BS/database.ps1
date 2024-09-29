@@ -37,6 +37,8 @@ function database-status {
 	
 	if($result){
 		Write-Host "Database '$database' exists"
+		$statusLines[0] = 'DatabaseExists=True'
+		$statusLines | Set-Content -path '.\status.txt'
 		return $true
 	} else {	
 		Write-Host "Database '$database' does not exist"
@@ -79,14 +81,24 @@ function database-create{
 
 		 CREATE TABLE products(
 			product_id INT PRIMARY KEY, 
-			product_name VARCHAR(50),
-			price DECIMAL(18,2)
+			product_name VARCHAR(50) NOT NULL,
+			price DECIMAL(18,2) NOT NULL
 		 );"
 
 	$command.CommandText = $query
 	$command.ExecuteNonQuery()
 
-	Write-Host "Table created"
+	Write-Host "Table products created"
+
+	$query = "CREATE TABLE transactions(
+			transaction_id VARCHAR(50) PRIMARY KEY,
+			time_stamp DATETIME NOT NULL,
+			amount DECIMAL(10, 2) NOT NULL
+		 );"
+	$command.CommandText = $query
+	$command.ExecuteNonQuery()
+
+	Write-Host "Table transcations created"
 
     } catch {
         Write-Host "Error in creation: $_"
