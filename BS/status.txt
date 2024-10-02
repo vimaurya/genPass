@@ -1,3 +1,0 @@
-DatabaseExists=True
-Database=bsRecords
-server=localhost;port=3306;user id=root;password=vikash;
