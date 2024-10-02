@@ -1,16 +1,10 @@
-
 <#
 ToDos : 
-1. Implement options to ask whether the user wants to enter manually or scan
-2. Implement manual-billing function
-3. implement a separate file for database creation
+2. Implement write-transaction
+3. Implement the scan method
 #> 
 
-Write-Host "----------------------"
-Write-Host "| Select an option : |"
-Write-Host "| 1.) Manual	     |"
-Write-Host "| 2.) Code scan	     |"
-Write-Host "----------------------"
+."./transaction.ps1"
 
 function validate {
     param(
@@ -18,15 +12,15 @@ function validate {
         $InputNumber,
         $marker
     )
+    $valid_vals = @(1, 2, 3)
 
     if ($marker -eq 0) {
-        while ($InputNumber -notmatch '^\d+$' -or ($InputNumber -ne 2 -and $InputNumber -ne 1)) {
+        while ($InputNumber -notmatch '^\d+$' -or (-not ($valid_vals -contains $InputNumber))) {
             Write-Host "Invalid choice"
             $InputNumber = Read-Host "Enter your choice "
         }
     } else {
         while ($InputNumber -notmatch '^\d+$') {
-            Write-Host "Invalid id"
             $InputNumber = Read-Host "Enter prid "
         }
     }
@@ -34,38 +28,42 @@ function validate {
     return $InputNumber
 }
 
-function Get-Tid{
-	param(
-		[string]$prefix = "TXN"
-	)
-
-	$transaction_time = Get-Date
-
-	$timestamp = $transaction_time.ToString("yyyyMMddHHmmssfff")
-
-	$unique = Get-Random -Minimum 9999 -Maximum 100000
-
-	$Tid = "$prefix-$timestamp-$unique"
-
-	return $Tid, $transaction_time
-}
 
 function manual-billing{
 	param(
 		$prd_id
 	)
-	Write-Host "Inside manual-billing"
+	$price = Get-price $prd_id
+	
 	$Tid, $transaction_time = Get-Tid
-	Write-Host $Tid $transaction_time
+	return $price
 }
 
 function main{
+	while($true){
+			
+		Write-Host "----------------------"
+		Write-Host "| Select an option : |"
+		Write-Host "| 1.) Manual	     |"
+		Write-Host "| 2.) Code scan	     |"
+		Write-Host "| 3.) Exit 	     |"
+		Write-Host "----------------------"
 
-	$choice = validate (Read-Host "Enter your choice ") 0
-
-	if ($choice -eq 1){
-		$prd_id = validate (Read-Host "Enter prid ") 1
-		manual-billing $pr_id
+		$choice = validate (Read-Host "Enter your choice ") 0
+		$amount = 0
+		
+		while($choice){
+			$prd_id = Read-Host "Enter prid " 
+			if($prd_id -eq 'q'){
+				if($amount -ne 0){
+					Write-Host "(Total amount) : $amount"
+					write-transaction $amount
+				}				
+				$amount = 0
+			}
+			$prd_id = validate $prd_id 1
+			$amount += manual-billing $prd_id	
+		}
 	}
 }
 

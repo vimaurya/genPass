@@ -35,15 +35,8 @@ function database-status {
 
 	$result = $command.ExecuteScalar()
 	
-	if($result){
-		Write-Host "Database '$database' exists"
-		$statusLines[0] = 'DatabaseExists=True'
-		$statusLines | Set-Content -path '.\status.txt'
-		return $true
-	} else {	
-		Write-Host "Database '$database' does not exist"
-		return $false
-	}
+	return $result
+
     } catch {
         Write-Host "Error: $_"
     } finally {
@@ -145,6 +138,7 @@ function main{
 
 		if($res){
 			Write-Host "Aborting database creation | Already exists"
+			$statusLines[0] = "DatabaseExists=True"
 			return
 		} else{
 			database-create $databaseName	

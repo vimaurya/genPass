@@ -6,3 +6,6 @@ if ($status -eq "DatabaseExists=True") {
 	Write-Host "Database does not exist"
 	& .\database.ps1 
 }
+
+Write-Host "inside main"
+
