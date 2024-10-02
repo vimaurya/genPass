@@ -2,12 +2,12 @@
 [Reflection.Assembly]::LoadFrom("C:\Program Files (x86)\MySQL\Connector NET 8.0\Assemblies\v4.5.2\MySql.Data.dll")
 
 $statusLines = Get-Content -Path ".\status.txt"
+$connectionString = $statusLines[2]
 
 function drop-database{
 	param(
 		[string]$database
 	)
-	$connectionString = "server=localhost;port=3306;user id=root;password=vikash;"
 
     	$connection = New-Object MySql.Data.MySqlClient.MySqlConnection
     	$connection.ConnectionString = $connectionString

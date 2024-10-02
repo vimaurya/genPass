@@ -1,10 +1,11 @@
 <#
 ToDos : 
-2. Implement write-transaction
+1. Implement barcode generator
+2. Implement barcode scanner
 3. Implement the scan method
 #> 
 
-."./transaction.ps1"
+. "./transaction.ps1"
 
 function validate {
     param(
@@ -21,7 +22,7 @@ function validate {
         }
     } else {
         while ($InputNumber -notmatch '^\d+$') {
-            $InputNumber = Read-Host "Enter prid "
+		return
         }
     }
 
@@ -33,15 +34,14 @@ function manual-billing{
 	param(
 		$prd_id
 	)
-	$price = Get-price $prd_id
+	$res = Get-price $prd_id
 	
-	$Tid, $transaction_time = Get-Tid
-	return $price
+	return [float]$res.price
 }
 
 function main{
 	while($true){
-			
+		for($i=0;$i -lt 30; $i++){Write-Host""}	
 		Write-Host "----------------------"
 		Write-Host "| Select an option : |"
 		Write-Host "| 1.) Manual	     |"
@@ -52,17 +52,38 @@ function main{
 		$choice = validate (Read-Host "Enter your choice ") 0
 		$amount = 0
 		
-		while($choice){
+		while($choice -eq 1){
 			$prd_id = Read-Host "Enter prid " 
 			if($prd_id -eq 'q'){
 				if($amount -ne 0){
 					Write-Host "(Total amount) : $amount"
-					write-transaction $amount
+					Start-Sleep -Seconds 4
+					$paid = Read-Host "Y/N"
+					if ($paid -eq "Y"){
+						write-transaction $amount
+						for($i=0;$i -lt 40; $i++){Write-Host""}
+					}	
 				}				
 				$amount = 0
+			} 
+			if($prd_id -eq 'b'){
+				for($i=0;$i -lt 5; $i++){Write-Host""}	
+				break
 			}
-			$prd_id = validate $prd_id 1
-			$amount += manual-billing $prd_id	
+			else {
+				$prd_id = validate $prd_id 1
+				$amount += manual-billing $prd_id
+			}	
+		}
+
+		if ($choice -eq 3) {
+			Write-Host "Terminating.."
+			for($i=0;$i -lt 3; $i++){
+				Start-Sleep -Milliseconds 873
+				Write-Host "^"
+			}
+			Clear-Host
+			break
 		}
 	}
 }

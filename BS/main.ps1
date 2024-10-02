@@ -1,11 +1,12 @@
 $status = Get-Content -Path ".\status.txt"
 
 if ($status -eq "DatabaseExists=True") {
-    	Write-Host "Database already exists"
+	Write-Host ""
 } elseif ($status -eq "DatabaseExists=False") {
 	Write-Host "Database does not exist"
 	& .\database.ps1 
 }
 
-Write-Host "inside main"
+for($i=0;$i -lt 20; $i++){Write-Host""}
 
+& .\billing.ps1
