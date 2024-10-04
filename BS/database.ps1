@@ -97,7 +97,7 @@ function database-create{
     }
 }
 
-function main{
+function database-main{
 	try{
 		$databaseName = ($statusLines[1] -split "=")[1]
 	
@@ -116,4 +116,4 @@ function main{
 	}
 }
 
-main
+database-main
