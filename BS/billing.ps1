@@ -17,6 +17,10 @@ function validate {
 
     if ($marker -eq 0) {
         while ($InputNumber -notmatch '^\d+$' -or (-not ($valid_vals -contains $InputNumber))) {
+			if($InputNumber -eq 125){
+				Clear-Host
+				& ./productsEntry.ps1
+			}
             Write-Host "Invalid choice"
             $InputNumber = Read-Host "Enter your choice "
         }
@@ -30,11 +34,11 @@ function validate {
 }
 
 
-function manual-billing{
+function manualbilling{
 	param(
-		$prd_id
+		$barcode_id
 	)
-	$res = Get-price $prd_id
+	$res = Get-price $barcode_id
 	
 	return [float]$res.price
 }
@@ -71,8 +75,7 @@ function main{
 				break
 			}
 			else {
-				$prd_id = validate $prd_id 1
-				$amount += manual-billing $prd_id
+				$amount += manualbilling $prd_id
 			}	
 		}
 

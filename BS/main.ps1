@@ -7,6 +7,5 @@ if ($status -eq "DatabaseExists=True") {
 	& .\database.ps1 
 }
 
-for($i=0;$i -lt 20; $i++){Write-Host""}
-
+clear-Host
 & .\billing.ps1

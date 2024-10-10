@@ -5,8 +5,8 @@ $statusLines = Get-Content -Path ".\status.txt"
 $database = ($statusLines -split "=")[1]
 $connectionString = $statusLines[2]
 
-function Get-price([int]$prd_id) {
-
+function Get-price([string]$unique_id) {
+	
 	$connection = New-Object MySql.Data.MySqlClient.MySqlConnection
 	$connection.ConnectionString = $connectionString
 
@@ -16,7 +16,8 @@ function Get-price([int]$prd_id) {
 
 		$connection.Open()
 		$command = $connection.CreateCommand()
-		$query = "use $database; SELECT product_name, price FROM products WHERE product_id=$prd_id;"
+		$query = "use $database; SELECT product_name, price FROM products WHERE unique_id='$unique_id';"
+		
 		$command.CommandText = $query
 		$adapter = New-Object MySql.Data.MySqlClient.MySqlDataAdapter($command)
 		$data = New-Object System.Data.DataTable

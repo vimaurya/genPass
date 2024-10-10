@@ -7,7 +7,7 @@ import os
 def generate_code128_barcode(data):
 	code128 = barcode.get('code128', data, writer=ImageWriter())
 
-	filepath = "../barcodes"
+	filepath = "./barcodes"
 	
 	if not os.path.exists(filepath):
 		os.makedirs(filepath)
