@@ -12,7 +12,7 @@ This can be used to generate passwords or random security pin based on a secret 
 ```
 where `-u` is your username and `-d` is the domain where you will use this password, this is to ensure that you can use different password for different domains.
 
-Then it will ask you to enter your temppass which should specifically be 6 digit long.
+Then it will ask you to enter your temppass which acts as a seed for the password and only you can know that and it should specifically be 6 digit long.
 
 ![image](https://github.com/user-attachments/assets/2cc2c250-08f6-4965-b7d8-09ef1d1470bd)
 
